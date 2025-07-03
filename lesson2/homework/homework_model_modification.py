@@ -179,27 +179,27 @@ if __name__ == '__main__':
     from homework_datasets import CSVDataset
 
     data_dir = os.path.join(BASE_DIR, 'data')
-    titanic_csv = os.path.join(data_dir, 'Titanic.csv')
-    spotify_csv = os.path.join(data_dir, 'spotify.csv')
+    heart_csv = os.path.join(data_dir, 'heart.csv')
+    house_csv = os.path.join(data_dir, 'house_prices_train.csv')
 
     os.makedirs(MODELS_DIR, exist_ok=True)
     os.makedirs(PLOTS_DIR, exist_ok=True)
 
-    # Бинарная классификация Survived
-    if os.path.exists(titanic_csv):
-        ds = CSVDataset(titanic_csv, target_col='Survived', task='classification', sample_frac=0.3)
+    # Бинарная классификация Heart Disease
+    if os.path.exists(heart_csv):
+        ds = CSVDataset(heart_csv, target_col='target', task='classification', sample_frac=1.0)
         X_tr, X_val, _, y_tr, y_val, _ = split_data(ds.X, ds.y)
         clf_model, clf_hist, y_true, y_pred = train_softmax_regression(
             X_tr, y_tr, X_val, y_val,
             in_features=ds.X.shape[1], num_classes=ds.num_classes
         )
-        plot_confusion_matrix(y_true, y_pred, save_path=os.path.join(PLOTS_DIR, 'titanic_cm.png'))
+        plot_confusion_matrix(y_true, y_pred, save_path=os.path.join(PLOTS_DIR, 'heart_cm.png'))
 
-    # Регрессия популярности песен
-    if os.path.exists(spotify_csv):
-        ds_r = CSVDataset(spotify_csv, target_col='popularity', task='regression', sample_frac=0.1)
+    # Регрессия цены домов
+    if os.path.exists(house_csv):
+        ds_r = CSVDataset(house_csv, target_col='SalePrice', task='regression', sample_frac=1.0)
         X_tr, X_val, _, y_tr, y_val, _ = split_data(ds_r.X, ds_r.y)
         reg_model, reg_hist = train_linear_regression_with_modifications(
             X_tr, y_tr, X_val, y_val, in_features=ds_r.X.shape[1]
         )
-        plot_training_history(reg_hist, save_path=os.path.join(PLOTS_DIR, 'spotify_reg.png'))
+        plot_training_history(reg_hist, save_path=os.path.join(PLOTS_DIR, 'house_reg.png'))

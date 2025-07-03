@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import logging
 import os
+import math
+import numpy as np
 
 from utils import DEVICE, split_data, log_epoch
 from homework_model_modification import LinearRegression, SoftmaxRegression
@@ -61,7 +63,10 @@ def _single_train_run(
             loss = criterion(outputs, batch_y)
             final_val_loss += loss.item()
 
-    return final_val_loss / len(val_loader)
+    avg_val = final_val_loss / len(val_loader)
+    if math.isnan(avg_val) or math.isinf(avg_val):
+        avg_val = float('inf')
+    return avg_val
 
 
 def hyperparam_study(X, y):
@@ -70,9 +75,9 @@ def hyperparam_study(X, y):
     in_features = X.shape[1]
 
     search_space = {
-        "optimizer": ["Adam"],
-        "lr": [1e-1, 1e-2],
-        "bs": [16, 32],
+        "optimizer": ["SGD", "Adam", "RMSprop"],
+        "lr": [1e-1, 1e-2, 1e-3],
+        "bs": [16, 32, 64],
     }
 
     results = [
@@ -88,6 +93,8 @@ def hyperparam_study(X, y):
     ]
 
     results_df = pd.DataFrame(results)
+    # заменяем бесконечности на NaN (чтобы линии всё же рисовались, а не пропадали)
+    results_df['val_loss'] = results_df['val_loss'].replace([np.inf, -np.inf], np.nan)
     logging.info("Итоговая таблица подбора:\n" + str(results_df))
 
     os.makedirs(PLOTS_DIR, exist_ok=True)
@@ -136,6 +143,10 @@ def feature_study(X, y, opt_name="adam", lr=1e-2, bs=32):
                                         opt_name=opt_name, lr=lr, bs=bs)
     logging.info(f"Ошибка модели с новыми признаками на валидации: {engineered_loss:.4f}")
 
+    if math.isinf(engineered_loss) or math.isnan(engineered_loss):
+        logging.warning("poly-модель не сошлась; отображаем только baseline")
+        engineered_loss = baseline_loss
+
     # Сравнение результатов
     plt.figure(figsize=(8, 6))
     plt.bar(['Базовая', 'Полиномиальные'], [baseline_loss, engineered_loss], color=['#ff7f0e', '#17becf'])
@@ -172,7 +183,7 @@ def _single_train_run_cls(X_tr, y_tr, X_val, y_val, n_in, num_classes, opt_name=
     device = DEVICE
     model = SoftmaxRegression(n_in, num_classes).to(device)
     criterion = nn.CrossEntropyLoss()
-    opt_factory = {"sgd": optim.SGD, "adam": optim.Adam}[opt_name.lower()]
+    opt_factory = {"sgd": optim.SGD, "adam": optim.Adam, "rmsprop": optim.RMSprop}[opt_name.lower()]
     optimizer = opt_factory(model.parameters(), lr=lr)
     train_loader = DataLoader(TensorDataset(X_tr, y_tr), batch_size=bs, shuffle=True)
     val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=bs)
@@ -190,7 +201,10 @@ def _single_train_run_cls(X_tr, y_tr, X_val, y_val, n_in, num_classes, opt_name=
         for xb, yb in val_loader:
             xb, yb = xb.to(device), yb.to(device)
             total += criterion(model(xb), yb).item()
-    return total / len(val_loader)
+    avg_val = total / len(val_loader)
+    if math.isnan(avg_val) or math.isinf(avg_val):
+        avg_val = float('inf')
+    return avg_val
 
 
 def hyperparam_study_classification(X, y, num_classes):
@@ -198,7 +212,11 @@ def hyperparam_study_classification(X, y, num_classes):
     logging.info("Подбор гиперпараметров (классификация)")
     X_tr, X_val, _, y_tr, y_val, _ = split_data(X, y, test_size=0.2, val_size=0.2)
     in_features = X.shape[1]
-    search_space = {"optimizer": ["SGD", "Adam"], "lr": [1e-1, 1e-2], "bs": [16, 32]}
+    search_space = {
+        "optimizer": ["SGD", "Adam", "RMSprop"],
+        "lr": [1e-1, 1e-2, 1e-3],
+        "bs": [16, 32, 64],
+    }
     results = [
         {"optimizer": opt, "lr": lr, "batch_size": bs,
          "val_loss": _single_train_run_cls(X_tr, y_tr, X_val, y_val, in_features, num_classes, opt, lr, bs)}
@@ -241,16 +259,19 @@ def run_classification_experiment(csv_path: str, target: str = 'label'):
 if __name__ == '__main__':
     os.makedirs(PLOTS_DIR, exist_ok=True)
     os.makedirs(MODELS_DIR, exist_ok=True)
-    titanic_csv = os.path.join(BASE_DIR, 'data', 'Titanic.csv')
-    spotify_csv = os.path.join(BASE_DIR, 'data', 'spotify.csv')
-    if os.path.exists(titanic_csv):
-        dataset_titanic = CSVDataset(titanic_csv, target_col='Survived', task='classification')
-        best_cls = hyperparam_study_classification(dataset_titanic.X, dataset_titanic.y, dataset_titanic.num_classes)
-        run_classification_experiment(titanic_csv, target='Survived')
-    if os.path.exists(spotify_csv):
-        # Полный эксперимент: подбор гиперпараметров -> feature importance -> финальное обучение
-        dataset_sp = CSVDataset(spotify_csv, target_col='popularity', task='regression', sample_frac=0.02)
-        best = hyperparam_study(dataset_sp.X, dataset_sp.y)
-        feature_study(dataset_sp.X, dataset_sp.y, opt_name=best['optimizer'], lr=best['lr'], bs=int(best['batch_size']))
-        # итоговое обучение с лучшим набором
-        run_regression_experiment(spotify_csv, target='popularity', sample_frac=0.1)
+    heart_csv = os.path.join(BASE_DIR, 'data', 'heart.csv')
+    house_csv = os.path.join(BASE_DIR, 'data', 'house_prices_train.csv')
+
+    # Классификация: Heart Disease
+    if os.path.exists(heart_csv):
+        ds_heart = CSVDataset(heart_csv, target_col='target', task='classification')
+        best_cls = hyperparam_study_classification(ds_heart.X, ds_heart.y, ds_heart.num_classes)
+        run_classification_experiment(heart_csv, target='target')
+
+    # Регрессия: House Prices
+    if os.path.exists(house_csv):
+        ds_house = CSVDataset(house_csv, target_col='SalePrice', task='regression', sample_frac=1.0)
+        best_hp = hyperparam_study(ds_house.X, ds_house.y)
+        feature_study(ds_house.X, ds_house.y,
+                      opt_name=best_hp['optimizer'], lr=best_hp['lr'], bs=int(best_hp['batch_size']))
+        run_regression_experiment(house_csv, target='SalePrice', sample_frac=1.0)

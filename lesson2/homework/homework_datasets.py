@@ -107,10 +107,13 @@ def train_logistic_from_csv(csv_path: str, target_col: str, sample_frac: float =
 
 if __name__ == "__main__":
     data_dir = os.path.join(BASE_DIR, 'data')
-    titanic = os.path.join(data_dir, 'Titanic.csv')
-    spotify = os.path.join(data_dir, 'spotify.csv')
+    house = os.path.join(data_dir, 'house_prices_train.csv')  # Kaggle House Prices
+    heart = os.path.join(data_dir, 'heart.csv')               # Kaggle Heart Disease
 
-    if os.path.exists(spotify):
-        train_linear_from_csv(spotify, target_col='popularity', sample_frac=0.1)
-    if os.path.exists(titanic):
-        train_logistic_from_csv(titanic, target_col='Survived', sample_frac=1)
+    # Регрессия: цена дома
+    if os.path.exists(house):
+        train_linear_from_csv(house, target_col='SalePrice', sample_frac=1.0)
+
+    # Классификация: заболевание сердца
+    if os.path.exists(heart):
+        train_logistic_from_csv(heart, target_col='target', sample_frac=1.0)
