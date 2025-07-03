@@ -93,7 +93,7 @@ def hyperparam_study(X, y):
     ]
 
     results_df = pd.DataFrame(results)
-    # заменяем бесконечности на NaN (чтобы линии всё же рисовались, а не пропадали)
+    # заменяем бесконечности на NaN
     results_df['val_loss'] = results_df['val_loss'].replace([np.inf, -np.inf], np.nan)
     logging.info("Итоговая таблица подбора:\n" + str(results_df))
 
