@@ -39,11 +39,14 @@
 |----------------------|:---:|:--------------:|-----------|---------:|:---:|:-------:|
 | Linear Regression    | 105 | ✓ (patience 10) | 1e-4 / 1e-4 | 0.122 | —  | — |
 | Softmax Regression   | 72  | —              | —         | 0.35  | 0.84 | 0.90 |
+---
+
+![Confusion Matrix](plots/house_reg.png)
 
 Матрица ошибок сохранена как `heart_cm.png` (папка *homework/plots*).
 
 ![Confusion Matrix](plots/heart_cm.png)
----
+
 ## 5 Эксперимент с признаками
 Для House Prices созданы полиномиальные признаки второй степени.
 
