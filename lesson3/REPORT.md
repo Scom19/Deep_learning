@@ -22,9 +22,9 @@
 
 Регуляризация: добавление BatchNorm + Dropout в 5-слойную сеть (**depth_5_layers_regularized**) сократило разрыв и улучшило итоговую точность по сравнению с «грязной» 5-слойной.
 
-| depth_3_layers_accuracy.png | depth_7_layers_accuracy.png | depth_5_layers_regularized_accuracy.png |
+| depth_3_layers_learning_curves_accuracy.png | depth_7_layers_learning_curves_accuracy.png | depth_5_layers_regularized_learning_curves_accuracy.png |
 | :--: | :--: | :--: |
-| ![d3](plots/depth_experiments/depth_3_layers_accuracy.png) | ![d7](plots/depth_experiments/depth_7_layers_accuracy.png) | ![d5reg](plots/depth_experiments/depth_5_layers_regularized_accuracy.png) |
+| ![d3](plots/depth_experiments/depth_3_layers_learning_curves_accuracy.png) | ![d7](plots/depth_experiments/depth_7_layers_learning_curves_accuracy.png) | ![d5reg](plots/depth_experiments/depth_5_layers_regularized_learning_curves_accuracy.png) |
 
 Дополнительно — пример распределения весов для лучшей модели:
 
@@ -46,9 +46,9 @@
 
  результаты grid-search (heatmap ниже) демонстрируют, что expanding/contracting/constant дают сходные показатели ≈97.9 %, т.е. общая «мощность» сети важнее конкретного распределения ширины.
 
-| width_medium_accuracy.png | width_very_wide_accuracy.png |
+| width_medium_learning_curves_accuracy.png | width_very_wide_learning_curves_accuracy.png |
 | :--: | :--: |
-| ![wm](plots/width_experiments/width_medium_accuracy.png) | ![vw](plots/width_experiments/width_very_wide_accuracy.png) |
+| ![wm](plots/width_experiments/width_medium_learning_curves_accuracy.png) | ![vw](plots/width_experiments/width_very_wide_learning_curves_accuracy.png) |
 
 | Grid-search heatmap |
 | :--: |
@@ -67,9 +67,9 @@
 **Вывод:** комбинация Dropout 0.3 + BatchNorm (`reg_dropout_batchnorm`) — наиболее
 эффективный способ борьбы с переобучением в данном случае.
 
-| reg_none_accuracy.png | reg_dropout_batchnorm_accuracy.png |
+| reg_none_learning_curves_accuracy.png | reg_dropout_batchnorm_learning_curves_accuracy.png |
 | :--: | :--: |
-| ![none](plots/regularization_experiments/reg_none_accuracy.png) | ![dbn](plots/regularization_experiments/reg_dropout_batchnorm_accuracy.png) |
+| ![none](plots/regularization_experiments/reg_none_learning_curves_accuracy.png) | ![dbn](plots/regularization_experiments/reg_dropout_batchnorm_learning_curves_accuracy.png) |
 
 ## 5. Лучшие модели по экспериментам
 
