@@ -27,17 +27,17 @@
 На графиках ниже можно визуально сравнить, как менялись точность и потери у каждой модели в процессе обучения.
 | Точность | Потери |
 |:---------:|:---------:|
-| ![Сравнение моделей на MNIST по точности](homework/plots/mnist_comparison/сравнение_моделей_MNIST_по_точности.png) | ![Сравнение моделей на MNIST по потерям](homework/plots/mnist_comparison/сравнение_моделей_MNIST_по_потерям.png) |
+| ![Сравнение моделей на MNIST по точности](plots/mnist_comparison/сравнение_моделей_MNIST_по_точности.png) | ![Сравнение моделей на MNIST по потерям](plots/mnist_comparison/сравнение_моделей_MNIST_по_потерям.png) |
 
 
 
 #### Кривые обучения отдельных моделей
 
-![FC_MNIST - кривые обучения](homework/plots/mnist_comparison/FC_MNIST_learning_curves.png)
+![FC_MNIST - кривые обучения]( plots/mnist_comparison/FC_MNIST_learning_curves.png)
 
-![SimpleCNN - кривые обучения](homework/plots/mnist_comparison/SimpleCNN_learning_curves.png)
+![SimpleCNN - кривые обучения]( plots/mnist_comparison/SimpleCNN_learning_curves.png)
 
-![ModelWithBasicBlocks - кривые обучения](homework/plots/mnist_comparison/ModelWithBasicBlocks_learning_curves.png)
+![ModelWithBasicBlocks - кривые обучения]( plots/mnist_comparison/ModelWithBasicBlocks_learning_curves.png)
 
 #### Выводы по MNIST
 
@@ -69,7 +69,7 @@
 
 | Точность | Потери |
 |:---------:|:---------:|
-| ![Сравнение моделей на CIFAR-10 по точности](homework/plots/cifar_comparison/сравнение_моделей_CIFAR-10_по_точности.png) | ![Сравнение моделей на CIFAR-10 по потерям](homework/plots/cifar_comparison/сравнение_моделей_CIFAR-10_по_потерям.png) |
+| ![Сравнение моделей на CIFAR-10 по точности]( plots/cifar_comparison/сравнение_моделей_CIFAR-10_по_точности.png) | ![Сравнение моделей на CIFAR-10 по потерям]( plots/cifar_comparison/сравнение_моделей_CIFAR-10_по_потерям.png) |
 
 
 
@@ -77,15 +77,15 @@
 
 Кривые обучения для сверточных сетей показывают явное переобучение: кривая потерь на обучающей выборке (Train Loss) продолжает падать, в то время как на тестовой (Test Loss) она не меняется или даже начинает расти.
 
-![FC_CIFAR - кривые обучения](homework/plots/cifar_comparison/FC_CIFAR_learning_curves.png)
+![FC_CIFAR - кривые обучения]( plots/cifar_comparison/FC_CIFAR_learning_curves.png)
 
-![ModelWithBasicBlocks - кривые обучения](homework/plots/cifar_comparison/ModelWithBasicBlocks_learning_curves.png)
+![ModelWithBasicBlocks - кривые обучения]( plots/cifar_comparison/ModelWithBasicBlocks_learning_curves.png)
 
-![ModelWithRegularization - кривые обучения](homework/plots/cifar_comparison/ModelWithRegularization_learning_curves.png)
+![ModelWithRegularization - кривые обучения]( plots/cifar_comparison/ModelWithRegularization_learning_curves.png)
 
 Матрица ошибок для лучшей модели (ModelWithBasicBlocks) показывает, какие классы модель путает чаще всего. Например, заметна путаница между классами кошка и собака, а также птица и самолет. В то же время классы машина и корабль распознаются очень уверенно
 
-![Матрица ошибок для CIFAR-10](homework/plots/cifar_comparison/ModelWithBasicBlocks_confusion_matrix.png)
+![Матрица ошибок для CIFAR-10]( plots/cifar_comparison/ModelWithBasicBlocks_confusion_matrix.png)
 
 #### Выводы по CIFAR-10
 
@@ -111,7 +111,7 @@
 | CNN_Kernel_5x5 | 98.12% | 40,170 |
 | CNN_Kernel_7x7 | 97.89% | 30,154 |
 
-![Сравнение моделей по размеру ядра](homework/plots/architecture_analysis/kernel_size/сравнение_моделей_по_размеру_ядра.png)
+![Сравнение моделей по размеру ядра]( plots/architecture_analysis/kernel_size/сравнение_моделей_по_размеру_ядра.png)
 
 #### Визуализация активаций первого слоя
 
@@ -119,7 +119,7 @@
 
 | Ядро 3x3 | Ядро 5x5 | Ядро 7x7 |
 |:---------:|:---------:|:---------:|
-| ![Активации CNN с ядром 3x3](homework/plots/architecture_analysis/kernel_size/активации_CNN_Kernel_3x3_conv1.png) | ![Активации CNN с ядром 5x5](homework/plots/architecture_analysis/kernel_size/активации_CNN_Kernel_5x5_conv1.png) | ![Активации CNN с ядром 7x7](homework/plots/architecture_analysis/kernel_size/активации_CNN_Kernel_7x7_conv1.png) |
+| ![Активации CNN с ядром 3x3]( plots/architecture_analysis/kernel_size/активации_CNN_Kernel_3x3_conv1.png) | ![Активации CNN с ядром 5x5]( plots/architecture_analysis/kernel_size/активации_CNN_Kernel_5x5_conv1.png) | ![Активации CNN с ядром 7x7]( plots/architecture_analysis/kernel_size/активации_CNN_Kernel_7x7_conv1.png) |
 
 **Анализ карт активаций:**
 
@@ -160,7 +160,7 @@
 | ModelWithBasicBlocks | 84.64% | 11,173,962 | 449.52 |
 | ModelWithBottleneckBlocks | 80.50% | 13,958,986 | 731.39 |
 
-![Сравнение типов блоков по точности](homework/plots/custom_experiments/сравнение_типов_блоков_по_точности.png)
+![Сравнение типов блоков по точности]( plots/custom_experiments/сравнение_типов_блоков_по_точности.png)
 
 #### Выводы по кастомным слоям
 
