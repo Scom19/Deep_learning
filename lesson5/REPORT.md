@@ -17,17 +17,23 @@
 На примере класса "Гароу" можно увидеть, как меняется изображение после каждой трансформации:
 
 - Горизонтальное отражение
-  ![](results/task1_Гароу_hflip.png)
+
+  ![](results/task1_Генос_hflip.png)
 - Случайная обрезка
-  ![](results/task1_Гароу_crop.png)
+
+  ![](results/task1_Генос_crop.png)
 - Изменение цвета
-  ![](results/task1_Гароу_jitter.png)
+
+  ![](results/task1_Генос_jitter.png)
 - Случайный поворот
-  ![](results/task1_Гароу_rotation.png)
+
+  ![](results/task1_Генос_rotation.png)
 - Преобразование в оттенки серого
-  ![](results/task1_Гароу_grayscale.png)
+
+  ![](results/task1_Генос_grayscale.png)
 - Всё вместе
-  ![results/task1_Генос_combo.png]
+
+  ![](results/task1_Генос_combo.png)
 
 
 **Выводы:**
@@ -46,8 +52,10 @@
 **Результаты:**
 
 - Сравнение размытия и шума:
+
   ![](results/task2_blur_vs_noise.png)
 - Сравнение контраста и яркости:
+
   ![](results/task2_contrast_vs_brightness.png)
 
 **Выводы:**
