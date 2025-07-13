@@ -1,0 +1,14 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch
+torchvision
+datasets
+numpy
+matplotlib
+tqdm
+transformers
+tokenizers
+sentencepiece
+protobuf
+nltk
+requests
+chardet
