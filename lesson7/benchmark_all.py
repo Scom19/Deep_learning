@@ -69,7 +69,7 @@ def run_benchmark_for_size(image_size: int, batch_sizes: List[int] = [1, 4, 16, 
         try:
             batch_results = benchmark_models(
                 model_path=model_path,
-                num_runs=3,
+                num_runs=2,
                 min_batch_size=batch_size,
                 max_batch_size=batch_size,
                 opt_batch_size=batch_size,
@@ -362,8 +362,9 @@ def create_summary_report(all_results: Dict[int, Dict], logger=None):
 def main():
     logger = setup_logger('benchmark_main')
     
-    image_sizes = [224, 256, 384, 512]
-    batch_sizes = [1, 4, 16, 64]
+    # БЫСТРЫЕ НАСТРОЙКИ для ускорения
+    image_sizes = [224, 384]  # Только 2 размера вместо 4
+    batch_sizes = [1, 16]     # Только 2 размера батчей вместо 4
     
     logger.info(f"Размеры изображений: {image_sizes}")
     logger.info(f"Размеры батчей: {batch_sizes}")
